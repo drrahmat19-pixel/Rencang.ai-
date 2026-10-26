@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+html {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

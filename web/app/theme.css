@@ -1,0 +1,37 @@
+/*
+ * LAPISAN TEMA (SEMENTARA) — satu-satunya tempat token visual.
+ * Sumber: plans/desain-terkunci-rencang-mvp.md. Saat ekspor Stitch tiba, ganti nilai di sini
+ * (dan komponen di components/ui) tanpa menyentuh logika halaman.
+ */
+@theme {
+  /* Warna */
+  --color-primary: #0e4d3a; /* Rencang Green */
+  --color-primary-hover: #0a3a2b;
+  --color-on-primary: #ffffff;
+  --color-accent: #d4a956; /* Sunda Gold: garis/penanda, bukan teks di atas ivory */
+  --color-ivory: #f8f5ec; /* latar */
+  --color-ink: #2d2d2d; /* teks */
+  --color-muted: #5e5a50; /* teks sekunder, kontras AA di atas ivory & putih */
+  --color-surface: #ffffff; /* kartu */
+  --color-line: #e5e0d3;
+  --color-success: #1f7a4d;
+  --color-warning: #b7791f;
+  --color-danger: #b42318;
+
+  /* Font */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: var(--font-lora), ui-serif, Georgia, serif;
+
+  /* Skala teks 12/14/16/20/24/32 */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+
+  /* Radius & bayangan */
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --shadow-card: 0 1px 2px rgb(45 45 45 / 0.08);
+}
