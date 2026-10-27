@@ -16,3 +16,46 @@ body {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+@media print {
+  @page receipt-58 {
+    size: 58mm auto;
+    margin: 4mm;
+  }
+
+  @page receipt-80 {
+    size: 80mm auto;
+    margin: 4mm;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .receipt-print,
+  .receipt-print * {
+    visibility: visible;
+  }
+
+  .receipt-print-58 {
+    page: receipt-58;
+    width: 50mm;
+  }
+
+  .receipt-print-80,
+  .receipt-print:not(.receipt-print-58) {
+    page: receipt-80;
+    width: 72mm;
+  }
+
+  .receipt-print {
+    position: absolute;
+    inset: 0 auto auto 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

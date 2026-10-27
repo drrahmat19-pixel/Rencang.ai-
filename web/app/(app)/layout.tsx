@@ -28,10 +28,10 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
       <div className="flex flex-1">
-        <Sidebar />
+        <Sidebar role={tenant.role} />
         <main className="min-w-0 flex-1 p-4 pb-24 lg:p-6 lg:pb-6">{children}</main>
       </div>
-      <BottomBar />
+      <BottomBar role={tenant.role} />
     </div>
   );
 }

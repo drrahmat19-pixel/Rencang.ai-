@@ -83,12 +83,12 @@ Tabel `stock_movements` + `stock_balances` + RPC stok masuk/stok awal, koreksi (
 Tabel `sales` + `sale_items` + RPC `pos_checkout` (idempotency, harga dari server, kunci stok berurutan, tolak stok kurang, batas diskon per peran, snapshot harga/modal, mutasi `sale`, nomor struk per tenant). Pengaturan batas diskon kasir. Halaman `/kasir`: cari produk, keranjang (qty, hapus, sisa stok), diskon nominal, metode tunai/transfer/QRIS + uang diterima & kembalian, konfirmasi bila `PRICE_CHANGED`, lalu struk cetak 58/80 mm dengan keterangan "metode bayar dicatat, bukan bukti dana diterima".
 
 ### Acceptance criteria
-- [ ] Jual 2 produk barang + 1 jasa tunai → satu sale completed, saldo barang berkurang tepat sesuai qty, jasa tanpa mutasi, struk tampil & bisa dicetak.
-- [ ] Panggilan ulang dengan `idempotency_key` sama → sale yang sama dikembalikan, tidak ada mutasi tambahan (tes).
-- [ ] Qty melebihi saldo → ditolak `INSUFFICIENT_STOCK`, tidak ada sale/mutasi tersimpan (tes rollback).
-- [ ] Diskon kasir di atas batas ditolak; owner bisa diskon lebih besar.
-- [ ] Harga produk diubah setelah keranjang dibuat → kasir melihat konfirmasi harga baru sebelum transaksi tersimpan.
-- [ ] Uang tunai kurang dari total ditolak; kembalian dihitung server.
+- [x] Jual 2 produk barang + 1 jasa tunai → satu sale completed, saldo barang berkurang tepat sesuai qty, jasa tanpa mutasi, struk tampil & bisa dicetak.
+- [x] Panggilan ulang dengan `idempotency_key` sama → sale yang sama dikembalikan, tidak ada mutasi tambahan (tes).
+- [x] Qty melebihi saldo → ditolak `INSUFFICIENT_STOCK`, tidak ada sale/mutasi tersimpan (tes rollback).
+- [x] Diskon kasir di atas batas ditolak; owner bisa diskon lebih besar.
+- [x] Harga produk diubah setelah keranjang dibuat → kasir melihat konfirmasi harga baru sebelum transaksi tersimpan.
+- [x] Uang tunai kurang dari total ditolak; kembalian dihitung server.
 
 ---
 

@@ -6,20 +6,23 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { SoonBadge } from "@/components/ui/card";
 import { BOTTOM_MAIN, BOTTOM_MORE, isActive } from "@/lib/menu";
+import type { Role } from "@/lib/tenant";
 
 const ITEM = "flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 px-1 text-xs font-semibold";
 
 /** Bottom bar HP (< 1024 px): 5 menu utama + "Lainnya". */
-export function BottomBar() {
+export function BottomBar({ role }: { role: Role }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const moreActive = BOTTOM_MORE.some((m) => isActive(pathname, m.href));
+  const mainItems = role === "staf_stok" ? BOTTOM_MAIN.filter((item) => item.href !== "/kasir") : BOTTOM_MAIN;
+  const moreItems = role === "staf_stok" ? BOTTOM_MORE.filter((item) => item.href !== "/kasir") : BOTTOM_MORE;
+  const moreActive = moreItems.some((m) => isActive(pathname, m.href));
 
   return (
     <nav aria-label="Menu utama" className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden">
       {open ? (
         <ul id="menu-lainnya" className="flex flex-col gap-1 border-b border-line p-2">
-          {BOTTOM_MORE.map((item) => (
+          {moreItems.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
@@ -36,7 +39,7 @@ export function BottomBar() {
         </ul>
       ) : null}
       <div className="flex">
-        {BOTTOM_MAIN.map((item) => {
+        {mainItems.map((item) => {
           const active = isActive(pathname, item.href);
           return (
             <Link

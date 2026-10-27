@@ -5,13 +5,15 @@ import { usePathname } from "next/navigation";
 import { Icon } from "@/components/ui/icon";
 import { SoonBadge } from "@/components/ui/card";
 import { MENU, isActive } from "@/lib/menu";
+import type { Role } from "@/lib/tenant";
 
 /** Sidebar kiri, tampil di layar >= 1024 px. */
-export function Sidebar() {
+export function Sidebar({ role }: { role: Role }) {
   const pathname = usePathname();
+  const items = role === "staf_stok" ? MENU.filter((item) => item.href !== "/kasir") : MENU;
   return (
     <nav aria-label="Menu utama" className="hidden w-60 shrink-0 flex-col gap-1 border-r border-line bg-surface p-3 lg:flex">
-      {MENU.map((item) => {
+      {items.map((item) => {
         const active = isActive(pathname, item.href);
         return (
           <Link

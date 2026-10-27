@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { mapError } from "@/lib/errors";
+import { errorCode, mapError } from "@/lib/errors";
+import type { PaymentMethod } from "@/lib/pos";
 import { safeNext } from "@/lib/paths";
 import { NOT_CONFIGURED_MESSAGE, supabaseEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
@@ -179,4 +180,96 @@ export async function adjustStockAction(
   revalidatePath("/produk");
   revalidatePath("/beranda");
   return { info: "Koreksi stok berhasil dicatat." };
+}
+
+export type CheckoutInput = {
+  items: { productId: string; quantity: number }[];
+  discount: number;
+  paymentMethod: PaymentMethod;
+  amountReceived: number | null;
+  idempotencyKey: string;
+  expectedTotal: number;
+  acceptPriceChange?: boolean;
+};
+
+export type CheckoutResult =
+  | { ok: true; saleId: string }
+  | { ok: false; error: string; code?: string };
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/** Entry point checkout: semua input browser dianggap tidak tepercaya; harga tetap dihitung RPC. */
+export async function checkoutAction(input: CheckoutInput): Promise<CheckoutResult> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin" && tenant.role !== "kasir") {
+    return { ok: false, error: mapError("FORBIDDEN"), code: "FORBIDDEN" };
+  }
+
+  const validItems =
+    Array.isArray(input?.items) &&
+    input.items.length >= 1 &&
+    input.items.length <= 100 &&
+    input.items.every(
+      (item) => UUID_RE.test(item.productId) && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 100000,
+    );
+  const validMoney =
+    Number.isSafeInteger(input?.discount) &&
+    input.discount >= 0 &&
+    Number.isSafeInteger(input?.expectedTotal) &&
+    input.expectedTotal >= 0 &&
+    (input.amountReceived === null || (Number.isSafeInteger(input.amountReceived) && input.amountReceived >= 0));
+  if (!validItems || !validMoney || !UUID_RE.test(input?.idempotencyKey ?? "")) {
+    return { ok: false, error: mapError("INVALID_CART"), code: "INVALID_CART" };
+  }
+  if (!(["cash", "transfer", "qris"] as const).includes(input.paymentMethod)) {
+    return { ok: false, error: mapError("INVALID_PAYMENT_METHOD"), code: "INVALID_PAYMENT_METHOD" };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("pos_checkout", {
+    p_tenant_id: tenant.id,
+    p_items: input.items.map((item) => ({ product_id: item.productId, qty: item.quantity })),
+    p_discount: input.discount,
+    p_payment_method: input.paymentMethod,
+    p_amount_received: input.paymentMethod === "cash" ? input.amountReceived : null,
+    p_customer_id: null,
+    p_idempotency_key: input.idempotencyKey,
+    p_expected_total: input.expectedTotal,
+    p_accept_price_change: input.acceptPriceChange ?? false,
+  });
+  if (error || !data) {
+    const code = errorCode(error);
+    if (code === "PRICE_CHANGED") revalidatePath("/kasir");
+    return { ok: false, error: mapError(error), code };
+  }
+
+  const saleId = (data as { sale_id?: unknown }).sale_id;
+  if (typeof saleId !== "string" || !UUID_RE.test(saleId)) {
+    return { ok: false, error: mapError("SALE_NOT_FOUND"), code: "SALE_NOT_FOUND" };
+  }
+  revalidatePath("/kasir");
+  revalidatePath("/produk");
+  revalidatePath("/beranda");
+  return { ok: true, saleId };
+}
+
+export async function updateCashierDiscountAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner") return { error: mapError("FORBIDDEN") };
+  const limit = readInteger(formData, "cashier_discount_limit");
+  if (limit === null || Number.isNaN(limit) || limit < 0 || limit > 1_000_000_000) {
+    return { error: mapError("INVALID_DISCOUNT") };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("update_cashier_discount_limit", {
+    p_tenant_id: tenant.id,
+    p_limit: limit,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/pengaturan");
+  revalidatePath("/kasir");
+  return { info: "Batas diskon kasir berhasil disimpan." };
 }
