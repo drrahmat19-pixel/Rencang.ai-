@@ -14,6 +14,8 @@ Isi tiga variabel pada `.env.local`. `SUPABASE_SERVICE_ROLE_KEY` hanya dibaca se
 
 Buka `http://localhost:3000`.
 
+Untuk meninjau tampilan sebelum database VPS tersedia, buka `http://localhost:3000/demo`. Data pada halaman ini hanya contoh dan tidak disimpan.
+
 ## Pemeriksaan sebelum commit
 
 ```bash

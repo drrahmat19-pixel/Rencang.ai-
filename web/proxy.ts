@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { isPublicPath } from "@/lib/paths";
+import { isAuthPath, isPublicPath } from "@/lib/paths";
 import { supabaseEnv } from "@/lib/supabase/env";
 
 /** Menyegarkan sesi Supabase di tiap request & mengarahkan yang belum login ke /masuk (cek optimistis). */
@@ -35,7 +35,7 @@ export async function proxy(request: NextRequest) {
     target.search = path === "/" ? "" : `?next=${encodeURIComponent(path)}`;
     return NextResponse.redirect(target);
   }
-  if (loggedIn && isPublicPath(path)) {
+  if (loggedIn && isAuthPath(path)) {
     const target = request.nextUrl.clone();
     target.pathname = "/beranda";
     target.search = "";

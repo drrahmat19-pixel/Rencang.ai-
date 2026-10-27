@@ -17,6 +17,9 @@ export default async function MasukPage({ searchParams }: { searchParams: Promis
           Daftar
         </Link>
       </p>
+      <Link href="/demo" className="mt-3 flex min-h-11 items-center justify-center rounded-control border border-primary text-sm font-semibold text-primary">
+        Lihat demo tanpa database
+      </Link>
     </>
   );
 }

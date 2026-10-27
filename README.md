@@ -23,3 +23,7 @@ npm run dev
 
 Untuk menyiapkan database produksi milik sendiri, ikuti [panduan VPS](infra/vps/README.md).
 
+## Pratinjau tanpa database
+
+Jalankan aplikasi lalu buka `http://localhost:3000/demo`. Mode ini menampilkan mockup interaktif Beranda, Kasir, Stok, Pelanggan, dan Akun dengan data contoh tanpa memerlukan Supabase.
+
