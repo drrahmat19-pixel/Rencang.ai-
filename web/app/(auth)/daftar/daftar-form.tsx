@@ -9,7 +9,7 @@ export function DaftarForm() {
   const [state, action] = useActionState(signUpAction, undefined);
   return (
     <form action={action} className="mt-4 flex flex-col gap-4">
-      <Field id="email" label="Email" type="email" autoComplete="email" required />
+      <Field id="email" label="Email" type="email" autoComplete="email" spellCheck={false} required />
       <Field
         id="password"
         label="Kata sandi"

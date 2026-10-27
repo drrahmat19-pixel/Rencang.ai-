@@ -115,10 +115,12 @@ export function Cashier({
           <label htmlFor="product-search" className="sr-only">Nama, SKU, atau kategori</label>
           <input
             id="product-search"
+            name="product-search"
             type="search"
+            autoComplete="off"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Nama, SKU, atau kategori"
+            placeholder="Nama, SKU, atau kategori…"
             className="mt-3 min-h-11 w-full rounded-control border border-line bg-surface px-3 text-base"
           />
         </Card>

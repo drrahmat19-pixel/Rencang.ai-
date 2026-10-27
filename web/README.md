@@ -16,6 +16,8 @@ Buka `http://localhost:3000`.
 
 Untuk meninjau tampilan sebelum database VPS tersedia, buka `http://localhost:3000/demo`. Data pada halaman ini hanya contoh dan tidak disimpan.
 
+Halaman `/panduan` menjelaskan alur tiap peran. PWA dan cache offline aktif pada build produksi; service worker sengaja tidak didaftarkan saat mode pengembangan agar hot reload tetap bersih.
+
 ## Pemeriksaan sebelum commit
 
 ```bash

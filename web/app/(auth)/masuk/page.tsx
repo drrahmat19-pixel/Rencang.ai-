@@ -20,6 +20,9 @@ export default async function MasukPage({ searchParams }: { searchParams: Promis
       <Link href="/demo" className="mt-3 flex min-h-11 items-center justify-center rounded-control border border-primary text-sm font-semibold text-primary">
         Lihat demo tanpa database
       </Link>
+      <Link href="/panduan" className="mt-2 block text-center text-sm font-semibold text-primary underline">
+        Baca panduan penggunaan
+      </Link>
     </>
   );
 }

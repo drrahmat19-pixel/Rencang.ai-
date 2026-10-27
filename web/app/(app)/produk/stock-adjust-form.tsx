@@ -17,11 +17,11 @@ export function StockAdjustForm({ productId, allowPositive }: { productId: strin
           label="Perubahan jumlah"
           type="number"
           step={1}
-          placeholder="Contoh: -2"
+          placeholder="Contoh: -2…"
           hint={allowPositive ? "Gunakan minus untuk berkurang, plus untuk bertambah." : "Gunakan angka minus untuk barang rusak atau hilang."}
           required
         />
-        <Field id={`reason-${productId}`} name="reason" label="Alasan wajib" placeholder="Contoh: 2 botol pecah" required />
+        <Field id={`reason-${productId}`} name="reason" label="Alasan wajib" autoComplete="off" placeholder="Contoh: 2 botol pecah…" required />
         <SubmitButton variant="secondary">Simpan koreksi</SubmitButton>
         <div className="sm:col-span-3"><FormMessage error={state?.error} info={state?.info} /></div>
       </form>

@@ -50,7 +50,8 @@ export default async function ProductPage({ searchParams }: { searchParams: Prom
 
       <Card>
         <form className="grid gap-3 sm:grid-cols-[1fr_12rem_auto]">
-          <input name="q" defaultValue={params.q} placeholder="Cari nama, SKU, atau kategori…" className="min-h-11 rounded-control border border-line px-3" />
+          <label htmlFor="catalog-search" className="sr-only">Cari nama, SKU, atau kategori</label>
+          <input id="catalog-search" name="q" type="search" autoComplete="off" defaultValue={params.q} placeholder="Cari nama, SKU, atau kategori…" className="min-h-11 rounded-control border border-line px-3" />
           <select name="status" defaultValue={statusFilter} className="min-h-11 rounded-control border border-line bg-surface px-3">
             <option value="all">Semua status</option><option value="safe">Stok aman</option><option value="low">Stok menipis</option><option value="empty">Stok habis</option><option value="service">Jasa</option><option value="inactive">Nonaktif</option>
           </select>

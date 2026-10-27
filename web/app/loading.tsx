@@ -1,0 +1,3 @@
+export default function Loading() {
+  return <main aria-busy="true" aria-label="Memuat halaman" className="min-h-screen bg-ivory"><div className="mx-auto max-w-6xl animate-pulse px-4 py-10"><div className="h-10 w-44 rounded-control bg-line"/><div className="mt-12 grid gap-8 lg:grid-cols-2"><div><div className="h-4 w-40 rounded bg-line"/><div className="mt-5 h-12 w-full max-w-lg rounded-card bg-line"/><div className="mt-3 h-12 w-4/5 rounded-card bg-line"/><div className="mt-6 h-24 w-full rounded-card bg-line"/></div><div className="h-80 rounded-[24px] bg-line"/></div></div><p className="sr-only">Memuat…</p></main>;
+}

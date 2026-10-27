@@ -20,7 +20,7 @@ export function VoidForm({ saleId, mode }: { saleId: string; mode: "request" | "
           label="Alasan pembatalan"
           minLength={3}
           maxLength={240}
-          placeholder="Contoh: Pembeli salah memilih produk"
+          placeholder="Contoh: Pembeli salah memilih produk…"
           required
         />
         <SubmitButton variant={mode === "void" ? "danger" : "secondary"}>

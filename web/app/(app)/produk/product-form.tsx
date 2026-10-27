@@ -15,10 +15,10 @@ export function ProductForm() {
 
   return (
     <form ref={formRef} action={action} className="grid gap-4 sm:grid-cols-2">
-      <Field id="sku" label="SKU" placeholder="CONTOH-001" maxLength={40} required />
-      <Field id="name" label="Nama produk" placeholder="Contoh: Kopi Susu" maxLength={120} required />
-      <Field id="category" label="Kategori" placeholder="Minuman" maxLength={80} />
-      <Field id="unit" label="Satuan" placeholder="pcs" defaultValue="pcs" maxLength={20} required />
+      <Field id="sku" label="SKU" autoComplete="off" placeholder="CONTOH-001…" maxLength={40} required />
+      <Field id="name" label="Nama produk" autoComplete="off" placeholder="Contoh: Kopi Susu…" maxLength={120} required />
+      <Field id="category" label="Kategori" autoComplete="off" placeholder="Minuman…" maxLength={80} />
+      <Field id="unit" label="Satuan" autoComplete="off" placeholder="pcs…" defaultValue="pcs" maxLength={20} required />
       <div className="flex flex-col gap-1">
         <label htmlFor="product_type" className="text-sm font-semibold text-ink">Jenis produk</label>
         <select id="product_type" name="product_type" className="min-h-11 rounded-control border border-line bg-surface px-3">

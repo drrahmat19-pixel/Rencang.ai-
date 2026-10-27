@@ -47,7 +47,7 @@ export default async function SalesHistoryPage({
         <form method="get" className="grid gap-3 md:grid-cols-[minmax(12rem,1fr)_10rem_10rem_auto] md:items-end">
           <div>
             <label htmlFor="q" className="text-sm font-semibold">Nomor struk</label>
-            <input id="q" name="q" type="search" defaultValue={query} placeholder="Contoh: STR-20261027" className="mt-1 min-h-11 w-full rounded-control border border-line px-3" />
+            <input id="q" name="q" type="search" autoComplete="off" defaultValue={query} placeholder="Contoh: STR-20261027…" className="mt-1 min-h-11 w-full rounded-control border border-line px-3" />
           </div>
           <div>
             <label htmlFor="from" className="text-sm font-semibold">Dari tanggal</label>

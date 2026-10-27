@@ -27,3 +27,5 @@ Untuk menyiapkan database produksi milik sendiri, ikuti [panduan VPS](infra/vps/
 
 Jalankan aplikasi lalu buka `http://localhost:3000/demo`. Mode ini menampilkan mockup interaktif Beranda, Kasir, Stok, Pelanggan, dan Akun dengan data contoh tanpa memerlukan Supabase.
 
+Panduan penggunaan tersedia di `http://localhost:3000/panduan`. Build produksi juga menyertakan manifest dan service worker agar aplikasi dapat dipasang serta menyediakan halaman publik dasar saat koneksi terputus.
+

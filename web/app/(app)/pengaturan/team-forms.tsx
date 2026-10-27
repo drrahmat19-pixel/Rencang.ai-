@@ -14,7 +14,7 @@ export function AddTeamMemberForm() {
   useEffect(() => { if (state?.info) ref.current?.reset(); }, [state?.info]);
   return (
     <form ref={ref} action={action} className="mt-4 grid gap-3 sm:grid-cols-2">
-      <Field id="email" label="Email anggota" type="email" placeholder="anggota@usaha.id" required />
+      <Field id="email" label="Email anggota" type="email" autoComplete="off" spellCheck={false} placeholder="anggota@usaha.id…" required />
       <Field id="password" label="Kata sandi sementara" type="password" minLength={8} required hint="Berikan secara pribadi dan minta anggota menggantinya." />
       <div className="flex flex-col gap-1">
         <label htmlFor="role" className="text-sm font-semibold">Peran</label>

@@ -10,7 +10,7 @@ export function MasukForm({ next }: { next: string }) {
   return (
     <form action={action} className="mt-4 flex flex-col gap-4">
       <input type="hidden" name="next" value={next} />
-      <Field id="email" label="Email" type="email" autoComplete="email" required />
+      <Field id="email" label="Email" type="email" autoComplete="email" spellCheck={false} required />
       <Field id="password" label="Kata sandi" type="password" autoComplete="current-password" required />
       <FormMessage error={state?.error} info={state?.info} />
       <SubmitButton>Masuk</SubmitButton>

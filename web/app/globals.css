@@ -14,14 +14,30 @@ body {
 
 button, input, select, textarea { font: inherit; }
 
+button, a, input, select, summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgb(14 77 58 / 0.12);
+}
+
+section[id] { scroll-margin-top: 5rem; }
+
 [class*="text-2xl"], [class*="text-3xl"], input[type="number"] { font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
+@media (pointer: fine) {
+  html { overscroll-behavior: none; }
+}
+
 :focus-visible {
   outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.outline-none:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
   outline-offset: 2px;
 }
 

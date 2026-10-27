@@ -7,6 +7,10 @@ describe("paths", () => {
     expect(isPublicPath("/masuk")).toBe(true);
     expect(isPublicPath("/daftar")).toBe(true);
     expect(isPublicPath("/demo")).toBe(true);
+    expect(isPublicPath("/panduan")).toBe(true);
+    expect(isPublicPath("/offline")).toBe(true);
+    expect(isPublicPath("/manifest.webmanifest")).toBe(true);
+    expect(isPublicPath("/sw.js")).toBe(true);
     expect(isPublicPath("/beranda")).toBe(false);
     expect(isPublicPath("/masukkan")).toBe(false);
   });

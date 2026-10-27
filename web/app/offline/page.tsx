@@ -1,0 +1,5 @@
+import Link from "next/link";
+
+export default function OfflinePage() {
+  return <main className="flex min-h-screen items-center justify-center bg-ivory p-4"><div className="w-full max-w-md rounded-[24px] border border-line bg-white p-8 text-center shadow-card"><span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#fff9e8] text-2xl" aria-hidden="true">⌁</span><h1 className="mt-5 font-accent text-2xl font-bold">Koneksi sedang terputus</h1><p className="mt-3 text-sm leading-6 text-muted">Halaman publik yang pernah dibuka masih dapat tersedia. Transaksi dan perubahan data usaha memerlukan koneksi agar tetap aman dan konsisten.</p><div className="mt-6 flex flex-col gap-2"><Link href="/demo" className="flex min-h-11 items-center justify-center rounded-control bg-primary px-4 text-sm font-bold text-white">Buka Demo Offline</Link><Link href="/" className="flex min-h-11 items-center justify-center rounded-control border border-primary px-4 text-sm font-bold text-primary">Coba Halaman Utama</Link></div></div></main>;
+}

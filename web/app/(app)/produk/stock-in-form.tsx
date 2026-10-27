@@ -10,7 +10,7 @@ export function StockInForm({ productId }: { productId: string }) {
   return (
     <form action={action} className="mt-3 grid gap-3 border-t border-line pt-3 sm:grid-cols-[8rem_1fr_auto] sm:items-end">
       <Field id={`quantity-${productId}`} name="quantity" label="Jumlah masuk" type="number" min={1} step={1} required />
-      <Field id={`note-${productId}`} name="note" label="Catatan" placeholder="Contoh: Belanja pemasok" />
+      <Field id={`note-${productId}`} name="note" label="Catatan" autoComplete="off" placeholder="Contoh: Belanja pemasok…" />
       <SubmitButton variant="secondary">Tambah stok</SubmitButton>
       <div className="sm:col-span-3"><FormMessage error={state?.error} info={state?.info} /></div>
     </form>
