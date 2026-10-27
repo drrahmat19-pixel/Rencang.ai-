@@ -8,7 +8,7 @@ const lora = Lora({ variable: "--font-lora", subsets: ["latin"], display: "swap"
 
 export const metadata: Metadata = {
   title: { default: "Rencang AI", template: "%s | Rencang AI" },
-  description: "Kasir, produk, dan stok untuk usaha kecil Anda.",
+  description: "Kasir, produk, stok, laporan, dan tim usaha untuk UMKM Indonesia.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0e4d3a" };

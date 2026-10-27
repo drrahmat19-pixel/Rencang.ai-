@@ -3,6 +3,7 @@ import { isAuthPath, isPublicPath, safeNext } from "./paths";
 
 describe("paths", () => {
   it("rute publik mencakup autentikasi dan demo", () => {
+    expect(isPublicPath("/")).toBe(true);
     expect(isPublicPath("/masuk")).toBe(true);
     expect(isPublicPath("/daftar")).toBe(true);
     expect(isPublicPath("/demo")).toBe(true);

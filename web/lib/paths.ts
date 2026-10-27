@@ -1,5 +1,5 @@
 /** Rute yang boleh dibuka tanpa login. */
-export const PUBLIC_PATHS = ["/masuk", "/daftar", "/demo"];
+export const PUBLIC_PATHS = ["/", "/masuk", "/daftar", "/demo"];
 
 /** Rute autentikasi yang tidak perlu ditampilkan lagi setelah user masuk. */
 export const AUTH_PATHS = ["/masuk", "/daftar"];
