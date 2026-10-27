@@ -7,6 +7,7 @@ import type { PaymentMethod } from "@/lib/pos";
 import { safeNext } from "@/lib/paths";
 import { NOT_CONFIGURED_MESSAGE, supabaseEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   clearActiveTenantCookie,
   listMyTenants,
@@ -180,6 +181,117 @@ export async function adjustStockAction(
   revalidatePath("/produk");
   revalidatePath("/beranda");
   return { info: "Koreksi stok berhasil dicatat." };
+}
+
+export async function updateProductAction(
+  productId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin") return { error: mapError("FORBIDDEN") };
+  if (!UUID_RE.test(productId)) return { error: mapError("PRODUCT_NOT_FOUND") };
+  const price = readInteger(formData, "price");
+  const cost = readInteger(formData, "cost", true);
+  const minStock = readInteger(formData, "min_stock");
+  if (price === null || minStock === null || Number.isNaN(price) || Number.isNaN(minStock) || (cost !== null && Number.isNaN(cost))) {
+    return { error: mapError("INVALID_PRODUCT") };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("catalog_update_product", {
+    p_tenant_id: tenant.id,
+    p_product_id: productId,
+    p_sku: String(formData.get("sku") ?? ""),
+    p_name: String(formData.get("name") ?? ""),
+    p_category: String(formData.get("category") ?? ""),
+    p_unit: String(formData.get("unit") ?? "pcs"),
+    p_price: price,
+    p_cost: cost,
+    p_min_stock: minStock,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/produk");
+  revalidatePath("/kasir");
+  revalidatePath("/beranda");
+  return { info: "Perubahan produk berhasil disimpan." };
+}
+
+export async function setProductActiveAction(
+  productId: string,
+  isActive: boolean,
+  _prev: ActionState,
+  _formData: FormData,
+): Promise<ActionState> {
+  void _prev;
+  void _formData;
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin") return { error: mapError("FORBIDDEN") };
+  if (!UUID_RE.test(productId)) return { error: mapError("PRODUCT_NOT_FOUND") };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("catalog_set_product_active", {
+    p_tenant_id: tenant.id,
+    p_product_id: productId,
+    p_is_active: isActive,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/produk");
+  revalidatePath("/kasir");
+  revalidatePath("/beranda");
+  return { info: isActive ? "Produk berhasil diaktifkan kembali." : "Produk berhasil dinonaktifkan." };
+}
+
+export async function createTeamMemberAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner") return { error: mapError("FORBIDDEN") };
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  const role = String(formData.get("role") ?? "");
+  if (!EMAIL_RE.test(email)) return { error: "Isi email anggota dengan benar." };
+  if (password.length < 8) return { error: "Kata sandi sementara minimal 8 karakter." };
+  if (!["admin", "kasir", "staf_stok"].includes(role)) return { error: mapError("INVALID_ROLE") };
+
+  let admin: ReturnType<typeof createAdminClient>;
+  try {
+    admin = createAdminClient();
+  } catch (error) {
+    return { error: mapError(error) };
+  }
+  const { data, error: userError } = await admin.auth.admin.createUser({ email, password, email_confirm: true });
+  if (userError || !data.user) return { error: mapError(userError) };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("team_add_member", {
+    p_tenant_id: tenant.id,
+    p_user_id: data.user.id,
+    p_role: role,
+  });
+  if (error) {
+    await admin.auth.admin.deleteUser(data.user.id);
+    return { error: mapError(error) };
+  }
+  revalidatePath("/pengaturan");
+  return { info: "Anggota berhasil dibuat dan dapat langsung masuk." };
+}
+
+export async function updateTeamMemberAction(
+  membershipId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner") return { error: mapError("FORBIDDEN") };
+  const role = String(formData.get("role") ?? "");
+  const status = String(formData.get("status") ?? "");
+  if (!UUID_RE.test(membershipId)) return { error: mapError("MEMBER_NOT_FOUND") };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("team_update_member", {
+    p_tenant_id: tenant.id,
+    p_membership_id: membershipId,
+    p_role: role,
+    p_status: status,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/pengaturan");
+  return { info: "Akses anggota berhasil diperbarui." };
 }
 
 export type CheckoutInput = {

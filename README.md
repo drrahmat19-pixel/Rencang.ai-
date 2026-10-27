@@ -2,6 +2,8 @@
 
 Aplikasi operasional UMKM berbasis Next.js, TypeScript, dan PostgreSQL. Backend saat ini menggunakan Supabase agar autentikasi, Row Level Security (RLS), dan RPC database tetap berada dekat dengan PostgreSQL.
 
+MVP mencakup akun multi-usaha dan tim, katalog serta ledger stok, kasir atomik, struk dan pembatalan, dashboard, laporan, dan log audit. CRM/WhatsApp serta Kang Bisa AI ditampilkan sebagai fitur berikutnya dan tidak mengganggu operasional inti.
+
 ## Struktur
 
 - `web/` - aplikasi Next.js

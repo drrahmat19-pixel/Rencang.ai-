@@ -21,8 +21,8 @@ export const MENU: MenuItem[] = [
   { href: "/pengaturan", label: "Pengaturan", icon: "gear" },
 ];
 
-/** Bottom bar HP: 5 menu utama + "Lainnya" (sisanya). */
-const MAIN_HREFS = ["/beranda", "/kasir", "/produk", "/laporan", "/pengaturan"];
+/** Bottom bar HP mengikuti mockup: Beranda, Kasir, Stok, Pelanggan, Akun. */
+const MAIN_HREFS = ["/beranda", "/kasir", "/produk", "/pelanggan", "/pengaturan"];
 export const BOTTOM_MAIN = MAIN_HREFS.map((h) => MENU.find((m) => m.href === h)!);
 export const BOTTOM_MORE = MENU.filter((m) => !MAIN_HREFS.includes(m.href));
 

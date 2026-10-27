@@ -31,6 +31,13 @@ export const ERROR_MESSAGES: Record<string, string> = {
   SALE_ALREADY_VOIDED: "Transaksi ini sudah dibatalkan.",
   STOCK_BALANCE_NOT_FOUND: "Saldo stok produk tidak ditemukan.",
   INVALID_DATE_RANGE: "Rentang tanggal tidak valid atau lebih dari satu tahun.",
+  INVALID_ROLE: "Pilih peran anggota yang tersedia.",
+  INVALID_STATUS: "Status anggota tidak valid.",
+  USER_NOT_FOUND: "Akun anggota tidak ditemukan.",
+  MEMBER_NOT_FOUND: "Anggota tim tidak ditemukan.",
+  MEMBER_EXISTS: "Email ini sudah menjadi anggota usaha.",
+  OWNER_MEMBERSHIP_PROTECTED: "Akun pemilik utama tidak dapat diubah dari sini.",
+  SERVICE_ROLE_NOT_CONFIGURED: "Fitur tambah anggota belum aktif. Isi SUPABASE_SERVICE_ROLE_KEY di server.",
   // Pesan bawaan Supabase Auth
   "Invalid login credentials": "Email atau kata sandi salah.",
   "User already registered": "Email ini sudah terdaftar. Silakan masuk.",

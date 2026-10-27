@@ -1,7 +1,5 @@
 /*
- * LAPISAN TEMA (SEMENTARA) — satu-satunya tempat token visual.
- * Sumber: plans/desain-terkunci-rencang-mvp.md. Saat ekspor Stitch tiba, ganti nilai di sini
- * (dan komponen di components/ui) tanpa menyentuh logika halaman.
+ * Tema final MVP yang diturunkan dari seluruh mockup Stitch Rencang AI.
  */
 @theme {
   /* Warna */
@@ -31,7 +29,7 @@
   --text-3xl: 2rem;
 
   /* Radius & bayangan */
-  --radius-card: 12px;
-  --radius-control: 8px;
-  --shadow-card: 0 1px 2px rgb(45 45 45 / 0.08);
+  --radius-card: 16px;
+  --radius-control: 10px;
+  --shadow-card: 0 3px 12px rgb(14 77 58 / 0.08);
 }

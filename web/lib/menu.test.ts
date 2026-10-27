@@ -6,9 +6,10 @@ describe("menu", () => {
     expect(MENU).toHaveLength(8);
     expect(MENU.filter((m) => m.soon).map((m) => m.label)).toEqual(["Pelanggan", "Pesan", "Kang Bisa"]);
   });
-  it("bottom bar: 5 utama + sisanya di Lainnya, tanpa duplikat", () => {
+  it("bottom bar: 5 menu utama sesuai mockup", () => {
     expect(BOTTOM_MAIN).toHaveLength(5);
-    expect(BOTTOM_MORE.map((m) => m.label)).toEqual(["Pelanggan", "Pesan", "Kang Bisa"]);
+    expect(BOTTOM_MAIN.map((m) => m.label)).toEqual(["Beranda", "Kasir", "Produk & Stok", "Pelanggan", "Pengaturan"]);
+    expect(BOTTOM_MORE.map((m) => m.label)).toEqual(["Pesan", "Laporan", "Kang Bisa"]);
   });
   it("isActive cocok untuk subrute saja", () => {
     expect(isActive("/produk/123", "/produk")).toBe(true);

@@ -10,6 +10,8 @@ npm install
 npm run dev
 ```
 
+Isi tiga variabel pada `.env.local`. `SUPABASE_SERVICE_ROLE_KEY` hanya dibaca server dan diperlukan agar pemilik dapat membuat akun anggota tim.
+
 Buka `http://localhost:3000`.
 
 ## Pemeriksaan sebelum commit
