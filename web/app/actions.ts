@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { mapError } from "@/lib/errors";
 import { safeNext } from "@/lib/paths";
@@ -8,6 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   clearActiveTenantCookie,
   listMyTenants,
+  requireTenant,
   requireUserId,
   setActiveTenantCookie,
 } from "@/lib/tenant";
@@ -86,4 +88,95 @@ export async function selectTenantAction(formData: FormData) {
   if (!tenants.some((t) => t.id === tenantId)) redirect("/pilih-usaha");
   await setActiveTenantCookie(tenantId);
   redirect("/beranda");
+}
+
+function readInteger(formData: FormData, name: string, nullable = false): number | null {
+  const raw = String(formData.get(name) ?? "").trim();
+  if (nullable && raw === "") return null;
+  if (!/^\d+$/.test(raw)) return Number.NaN;
+  return Number(raw);
+}
+
+export async function createProductAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin") return { error: mapError("FORBIDDEN") };
+
+  const params = {
+    p_tenant_id: tenant.id,
+    p_sku: String(formData.get("sku") ?? ""),
+    p_name: String(formData.get("name") ?? ""),
+    p_category: String(formData.get("category") ?? ""),
+    p_unit: String(formData.get("unit") ?? "pcs"),
+    p_track_stock: String(formData.get("product_type") ?? "goods") !== "service",
+    p_price: readInteger(formData, "price"),
+    p_cost: readInteger(formData, "cost", true),
+    p_min_stock: readInteger(formData, "min_stock"),
+    p_initial_stock: readInteger(formData, "initial_stock"),
+  };
+  if (
+    [params.p_price, params.p_min_stock, params.p_initial_stock].some(
+      (value) => value === null || Number.isNaN(value),
+    ) ||
+    (params.p_cost !== null && Number.isNaN(params.p_cost))
+  ) {
+    return { error: mapError("INVALID_PRODUCT") };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("catalog_create_product", params);
+  if (error) return { error: mapError(error) };
+  revalidatePath("/produk");
+  revalidatePath("/beranda");
+  return { info: "Produk berhasil ditambahkan." };
+}
+
+export async function addStockAction(
+  productId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role === "kasir") return { error: mapError("FORBIDDEN") };
+
+  const qty = readInteger(formData, "quantity");
+  if (qty === null || Number.isNaN(qty) || qty <= 0) return { error: mapError("INVALID_AMOUNT") };
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("inventory_stock_in", {
+    p_tenant_id: tenant.id,
+    p_product_id: productId,
+    p_qty: qty,
+    p_note: String(formData.get("note") ?? ""),
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/produk");
+  revalidatePath("/beranda");
+  return { info: "Stok masuk berhasil dicatat." };
+}
+
+export async function adjustStockAction(
+  productId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role === "kasir") return { error: mapError("FORBIDDEN") };
+
+  const rawQty = String(formData.get("quantity") ?? "").trim();
+  const qty = /^-?\d+$/.test(rawQty) ? Number(rawQty) : Number.NaN;
+  const reason = String(formData.get("reason") ?? "").trim();
+  if (!Number.isInteger(qty) || qty === 0) return { error: mapError("INVALID_AMOUNT") };
+  if (reason.length < 3) return { error: mapError("REASON_REQUIRED") };
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("inventory_adjust", {
+    p_tenant_id: tenant.id,
+    p_product_id: productId,
+    p_qty_signed: qty,
+    p_reason: reason,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/produk");
+  revalidatePath("/beranda");
+  return { info: "Koreksi stok berhasil dicatat." };
 }
