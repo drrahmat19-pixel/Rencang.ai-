@@ -100,10 +100,10 @@ Tabel `sales` + `sale_items` + RPC `pos_checkout` (idempotency, harga dari serve
 Halaman `/kasir/riwayat`: daftar & cari (nomor struk, tanggal), detail, cetak ulang struk. Kasir mengajukan pembatalan (alasan). Owner/Admin melihat pengajuan dan membatalkan via RPC `pos_void` (alasan wajib, mutasi `void` +, idempoten). Status Dibatalkan tampil di riwayat & struk.
 
 ### Acceptance criteria
-- [ ] Owner membatalkan sale → status Dibatalkan, saldo barang kembali sesuai qty awal, mutasi `void` tercatat dengan pelaku & alasan.
-- [ ] Pembatalan kedua pada sale yang sama ditolak/no-op; saldo tidak bertambah lagi (tes).
-- [ ] Kasir tidak bisa membatalkan langsung (`FORBIDDEN`), tapi bisa mengajukan; pengajuan tampil untuk owner.
-- [ ] Rekonsiliasi stok tetap 0 selisih setelah jual + batal.
+- [x] Owner membatalkan sale → status Dibatalkan, saldo barang kembali sesuai qty awal, mutasi `void` tercatat dengan pelaku & alasan.
+- [x] Pembatalan kedua pada sale yang sama ditolak/no-op; saldo tidak bertambah lagi (tes).
+- [x] Kasir tidak bisa membatalkan langsung (`FORBIDDEN`), tapi bisa mengajukan; pengajuan tampil untuk owner.
+- [x] Rekonsiliasi stok tetap 0 selisih setelah jual + batal.
 
 ---
 

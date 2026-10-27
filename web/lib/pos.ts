@@ -23,7 +23,22 @@ export type SaleReceipt = {
   change: number;
   status: "completed" | "voided";
   completed_at: string;
+  voided_at: string | null;
+  void_reason: string | null;
+  void_request_status: "pending" | "approved" | "rejected" | null;
   items: SaleItem[];
+};
+
+export type SaleListItem = {
+  id: string;
+  receipt_no: string;
+  total: number;
+  payment_method: PaymentMethod;
+  status: "completed" | "voided";
+  completed_at: string;
+  cashier_id: string | null;
+  item_count: number;
+  void_request_status: "pending" | "approved" | "rejected" | null;
 };
 
 export async function getPosSettings(tenantId: string): Promise<{ cashierDiscountLimit: number; error: unknown }> {
@@ -40,6 +55,20 @@ export async function getSale(tenantId: string, saleId: string): Promise<{ sale:
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("pos_get_sale", { p_tenant_id: tenantId, p_sale_id: saleId });
   return { sale: data ? (data as SaleReceipt) : null, error };
+}
+
+export async function listSales(
+  tenantId: string,
+  filters: { query?: string; from?: string; to?: string },
+): Promise<{ sales: SaleListItem[]; error: unknown }> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("pos_list_sales", {
+    p_tenant_id: tenantId,
+    p_query: filters.query || null,
+    p_from: filters.from || null,
+    p_to: filters.to || null,
+  });
+  return { sales: (data ?? []) as SaleListItem[], error };
 }
 
 export const PAYMENT_LABEL: Record<PaymentMethod, string> = {

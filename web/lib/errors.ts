@@ -28,6 +28,9 @@ export const ERROR_MESSAGES: Record<string, string> = {
   INVALID_TOTAL: "Total keranjang tidak valid. Muat ulang halaman lalu coba lagi.",
   INVALID_IDEMPOTENCY_KEY: "Identitas transaksi tidak valid. Coba ulangi pembayaran.",
   SALE_NOT_FOUND: "Transaksi tidak ditemukan.",
+  SALE_ALREADY_VOIDED: "Transaksi ini sudah dibatalkan.",
+  STOCK_BALANCE_NOT_FOUND: "Saldo stok produk tidak ditemukan.",
+  INVALID_DATE_RANGE: "Rentang tanggal tidak valid atau lebih dari satu tahun.",
   // Pesan bawaan Supabase Auth
   "Invalid login credentials": "Email atau kata sandi salah.",
   "User already registered": "Email ini sudah terdaftar. Silakan masuk.",

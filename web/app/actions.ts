@@ -273,3 +273,55 @@ export async function updateCashierDiscountAction(
   revalidatePath("/kasir");
   return { info: "Batas diskon kasir berhasil disimpan." };
 }
+
+function readReason(formData: FormData): string {
+  return String(formData.get("reason") ?? "").trim();
+}
+
+export async function requestVoidAction(
+  saleId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin" && tenant.role !== "kasir") {
+    return { error: mapError("FORBIDDEN") };
+  }
+  if (!UUID_RE.test(saleId)) return { error: mapError("SALE_NOT_FOUND") };
+  const reason = readReason(formData);
+  if (reason.length < 3) return { error: mapError("REASON_REQUIRED") };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("pos_request_void", {
+    p_tenant_id: tenant.id,
+    p_sale_id: saleId,
+    p_reason: reason,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/kasir/riwayat");
+  revalidatePath(`/kasir/struk/${saleId}`);
+  return { info: "Pengajuan pembatalan sudah dikirim." };
+}
+
+export async function voidSaleAction(
+  saleId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const tenant = await requireTenant();
+  if (tenant.role !== "owner" && tenant.role !== "admin") return { error: mapError("FORBIDDEN") };
+  if (!UUID_RE.test(saleId)) return { error: mapError("SALE_NOT_FOUND") };
+  const reason = readReason(formData);
+  if (reason.length < 3) return { error: mapError("REASON_REQUIRED") };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("pos_void", {
+    p_tenant_id: tenant.id,
+    p_sale_id: saleId,
+    p_reason: reason,
+  });
+  if (error) return { error: mapError(error) };
+  revalidatePath("/kasir/riwayat");
+  revalidatePath(`/kasir/struk/${saleId}`);
+  revalidatePath("/produk");
+  revalidatePath("/beranda");
+  return { info: "Transaksi dibatalkan dan stok sudah dikembalikan." };
+}

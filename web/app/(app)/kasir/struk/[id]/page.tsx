@@ -43,6 +43,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
           <p className="mt-1 font-semibold">{tenant.name}</p>
           <p className="mt-2 text-sm">{sale.receipt_no}</p>
           <p className="text-xs text-muted">{completedAt} WIB</p>
+          {sale.status === "voided" ? <p className="mt-2 font-bold text-danger">TRANSAKSI DIBATALKAN</p> : null}
         </div>
 
         <ul className="divide-y divide-dashed divide-line py-2">
@@ -68,6 +69,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
         </dl>
 
         <div className="pt-4 text-center text-xs text-muted">
+          {sale.void_reason ? <p className="mb-2 text-danger">Alasan batal: {sale.void_reason}</p> : null}
           <p>Terima kasih sudah berbelanja.</p>
           <p className="mt-2 font-semibold">Metode bayar dicatat, bukan bukti dana diterima.</p>
         </div>
