@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-card border border-line bg-surface p-4 shadow-card ${className}`}>{children}</div>
+    <div className={`rounded-card border border-line/90 bg-surface p-4 shadow-card ${className}`}>{children}</div>
   );
 }
 
@@ -24,7 +24,7 @@ export function StatCard({ label, value, href }: { label: string; value: string;
 
 export function SoonBadge() {
   return (
-    <span className="rounded-full border border-accent bg-ivory px-2 py-0.5 text-xs font-semibold text-ink">
+    <span className="rounded-full border border-accent/60 bg-accent-soft px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
       Segera
     </span>
   );

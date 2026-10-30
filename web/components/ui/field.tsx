@@ -20,7 +20,7 @@ export function Field({
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
         {...props}
-        className="min-h-11 w-full rounded-control border border-line bg-surface px-3 text-base text-ink placeholder:text-muted"
+        className="min-h-12 w-full rounded-control border border-line bg-surface px-3 text-base text-ink shadow-[inset_0_1px_2px_rgb(6_47_37/0.04)] transition-[border-color,box-shadow] placeholder:text-muted focus:border-primary focus:shadow-[0_0_0_4px_rgb(11_79_60/0.08)]"
       />
       {hint && !error ? (
         <p id={`${id}-hint`} className="text-xs text-muted">

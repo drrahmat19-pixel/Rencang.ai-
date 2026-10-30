@@ -4,19 +4,30 @@
 html {
   background: var(--color-ivory);
   color: var(--color-ink);
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   overflow-x: hidden;
+  background:
+    radial-gradient(circle at 5% -10%, rgb(213 170 85 / 0.12), transparent 28rem),
+    var(--color-ivory);
 }
 
 button, input, select, textarea { font: inherit; }
 
-button, a, input, select, summary {
+button, a, input, select, summary, [role="button"] {
   touch-action: manipulation;
   -webkit-tap-highlight-color: rgb(14 77 58 / 0.12);
+}
+
+button, a, summary { cursor: pointer; }
+
+::selection {
+  background: rgb(213 170 85 / 0.42);
+  color: var(--color-primary-deep);
 }
 
 section[id] { scroll-margin-top: 5rem; }
@@ -32,14 +43,63 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: 3px solid rgb(11 79 60 / 0.42);
+  outline-offset: 3px;
 }
 
 .outline-none:focus-visible {
-  outline: 2px solid var(--color-primary) !important;
-  outline-offset: 2px;
+  outline: 3px solid rgb(11 79 60 / 0.42) !important;
+  outline-offset: 3px;
 }
+
+.brand-grid {
+  background-image:
+    linear-gradient(rgb(11 79 60 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(11 79 60 / 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+.glass-surface {
+  border: 1px solid rgb(255 255 255 / 0.64);
+  background: rgb(255 254 250 / 0.78);
+  box-shadow: 0 20px 60px rgb(6 47 37 / 0.1);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.noise-surface {
+  background-image:
+    radial-gradient(circle at 18% 20%, rgb(213 170 85 / 0.2), transparent 24rem),
+    radial-gradient(circle at 88% 80%, rgb(255 255 255 / 0.08), transparent 25rem),
+    linear-gradient(145deg, var(--color-primary), var(--color-primary-deep));
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-kicker::before {
+  width: 1.5rem;
+  height: 1px;
+  content: "";
+  background: var(--color-accent);
+}
+
+.text-balance { text-wrap: balance; }
+
+@keyframes gentle-float {
+  from { opacity: 0; transform: translateY(14px) rotate(-1deg); }
+  to { opacity: 1; transform: translateY(0) rotate(-1deg); }
+}
+
+.gentle-float { animation: gentle-float 700ms cubic-bezier(.2,.75,.2,1) both; }
 
 @media print {
   @page receipt-58 {

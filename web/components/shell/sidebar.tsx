@@ -12,7 +12,7 @@ export function Sidebar({ role }: { role: Role }) {
   const pathname = usePathname();
   const items = role === "staf_stok" ? MENU.filter((item) => item.href !== "/kasir") : MENU;
   return (
-    <nav aria-label="Menu utama" className="hidden w-60 shrink-0 flex-col gap-1 border-r border-line bg-surface p-3 lg:flex">
+    <nav aria-label="Menu utama" className="hidden w-64 shrink-0 flex-col gap-1.5 border-r border-line/80 bg-surface/75 p-4 backdrop-blur lg:flex">
       {items.map((item) => {
         const active = isActive(pathname, item.href);
         return (
@@ -20,8 +20,8 @@ export function Sidebar({ role }: { role: Role }) {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`flex min-h-11 items-center gap-3 rounded-control px-3 text-sm font-semibold ${
-              active ? "bg-primary text-on-primary" : "text-ink hover:bg-ivory"
+            className={`flex min-h-11 items-center gap-3 rounded-control px-3 text-sm font-semibold transition-[background-color,color,box-shadow] ${
+              active ? "bg-primary text-on-primary shadow-[0_8px_20px_rgb(11_79_60/0.16)]" : "text-muted hover:bg-primary-soft hover:text-primary"
             }`}
           >
             <Icon name={item.icon} />
