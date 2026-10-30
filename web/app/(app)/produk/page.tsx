@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 import { listProducts, stockStatus } from "@/lib/catalog";
+import { summarizeInventory } from "@/lib/business-insights";
 import { mapError } from "@/lib/errors";
 import { formatRupiah } from "@/lib/money";
 import { requireTenant } from "@/lib/tenant";
@@ -22,6 +23,7 @@ const STATUS = {
 export default async function ProductPage({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {
   const tenant = await requireTenant();
   const { products, error } = await listProducts(tenant.id);
+  const inventory = summarizeInventory(products);
   const { movements } = await listStockMovements(tenant.id, 30);
   const reconciliation = tenant.role === "owner" ? await reconcileInventory(tenant.id) : null;
   const params = await searchParams;
@@ -42,11 +44,15 @@ export default async function ProductPage({ searchParams }: { searchParams: Prom
         <p className="mt-1 text-sm text-muted">Kelola katalog dan catat setiap stok masuk tanpa menghapus riwayat.</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <Card><p className="text-xs text-muted">Total produk</p><p className="mt-1 text-2xl font-bold">{products.length}</p></Card>
-        <Card><p className="text-xs text-muted">Stok aman</p><p className="mt-1 text-2xl font-bold text-success">{products.filter((p) => p.is_active && stockStatus(p) === "safe").length}</p></Card>
-        <Card><p className="text-xs text-muted">Perlu dicek</p><p className="mt-1 text-2xl font-bold text-warning">{products.filter((p) => p.is_active && ["low", "empty"].includes(stockStatus(p))).length}</p></Card>
+        <Card><p className="text-xs text-muted">Nilai persediaan</p><p className="mt-1 text-xl font-bold text-primary">{formatRupiah(inventory.inventoryValue)}</p><p className="mt-1 text-[10px] text-muted">Berdasarkan harga modal</p></Card>
+        <Card><p className="text-xs text-muted">Potensi nilai jual</p><p className="mt-1 text-xl font-bold text-success">{formatRupiah(inventory.potentialSalesValue)}</p><p className="mt-1 text-[10px] text-muted">Jika seluruh stok terjual</p></Card>
+        <Card><p className="text-xs text-muted">Stok menipis</p><p className="mt-1 text-2xl font-bold text-warning">{inventory.lowCount}</p></Card>
+        <Card><p className="text-xs text-muted">Stok habis</p><p className="mt-1 text-2xl font-bold text-danger">{inventory.emptyCount}</p></Card>
       </div>
+
+      <Card className="border-primary/20 bg-primary-soft"><div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><div><p className="text-sm font-bold text-primary">Insight Persediaan</p><p className="mt-1 text-sm text-muted">{inventory.lowCount + inventory.emptyCount > 0 ? `${inventory.lowCount + inventory.emptyCount} produk perlu segera diperiksa agar penjualan tidak terhambat.` : "Seluruh persediaan aktif berada di atas batas minimum."}</p></div>{inventory.missingCostCount > 0 ? <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1.5 text-xs font-bold text-warning">{inventory.missingCostCount} modal belum diisi</span> : <span className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-success">Data modal lengkap</span>}</div></Card>
 
       <Card>
         <form className="grid gap-3 sm:grid-cols-[1fr_12rem_auto]">
