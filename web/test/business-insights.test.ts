@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildFinancialSnapshot, buildPareto, summarizeInventory } from "@/lib/business-insights";
+import { buildFinancialSnapshot, buildKangBisaInsights, buildPareto, summarizeInventory } from "@/lib/business-insights";
 
 describe("business insights", () => {
   it("membangun Pareto berdasarkan kontribusi omzet", () => {
@@ -32,5 +32,24 @@ describe("business insights", () => {
     expect(snapshot.netProfitEstimate).toBeNull();
     expect(snapshot.totalAssets).toBe(1_250_000);
     expect(snapshot.equityEstimate).toBeNull();
+  });
+
+  it("memprioritaskan risiko stok dan menjelaskan bukti rekomendasi", () => {
+    const insights = buildKangBisaInsights({
+      outOfStockCount: 2,
+      lowStockCount: 3,
+      revenue: 1_000_000,
+      grossMargin: 0.2,
+      classAProductNames: ["Kopi Susu"],
+    });
+    expect(insights[0]).toMatchObject({ id: "restock-empty", priority: "urgent", href: "/produk?status=empty" });
+    expect(insights[0].evidence).toContain("2 produk");
+    expect(insights.map((insight) => insight.id)).toContain("protect-margin");
+  });
+
+  it("memberi status positif saat tidak ada risiko yang terdeteksi", () => {
+    const insights = buildKangBisaInsights({ revenue: 1_000_000, transactionCount: 12, grossMargin: 0.4 });
+    expect(insights).toHaveLength(1);
+    expect(insights[0]).toMatchObject({ id: "operations-healthy", priority: "positive" });
   });
 });

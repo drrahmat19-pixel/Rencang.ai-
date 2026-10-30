@@ -17,7 +17,7 @@ export const MENU: MenuItem[] = [
   { href: "/pelanggan", label: "Pelanggan", icon: "users", soon: true },
   { href: "/pesan", label: "Pesan", icon: "chat", soon: true },
   { href: "/laporan", label: "Laporan", icon: "chart" },
-  { href: "/kang-bisa", label: "Kang Bisa", icon: "spark", soon: true },
+  { href: "/kang-bisa", label: "Kang Bisa", icon: "spark" },
   { href: "/pengaturan", label: "Pengaturan", icon: "gear" },
 ];
 
