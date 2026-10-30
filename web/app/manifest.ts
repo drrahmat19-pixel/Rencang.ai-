@@ -14,8 +14,8 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait-primary",
     categories: ["business", "productivity", "finance"],
     icons: [
-      { src: "/rencang-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/rencang-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
+      { src: "/brand/rencang-app-icon.png", sizes: "1254x1254", type: "image/png", purpose: "any" },
+      { src: "/brand/rencang-app-icon.png", sizes: "1254x1254", type: "image/png", purpose: "maskable" },
     ],
   };
 }

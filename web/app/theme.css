@@ -4,19 +4,22 @@
  */
 @theme {
   /* Semantic color tokens */
-  --color-primary: #0b4f3c;
-  --color-primary-hover: #073d2e;
-  --color-primary-soft: #e5f1eb;
-  --color-primary-deep: #062f25;
+  --color-primary: #0e4d3a;
+  --color-primary-hover: #0a3b2d;
+  --color-primary-soft: #e4f0e9;
+  --color-primary-deep: #174236;
   --color-on-primary: #ffffff;
-  --color-accent: #d5aa55;
-  --color-accent-soft: #fbf2dc;
-  --color-ivory: #f7f4eb;
-  --color-canvas: #efebe0;
-  --color-ink: #17241f;
-  --color-muted: #5c6963;
+  --color-accent: #d4a956;
+  --color-accent-soft: #f8eed9;
+  --color-ivory: #f8f5ec;
+  --color-canvas: #eaddc8;
+  --color-ink: #1f2937;
+  --color-muted: #56635e;
   --color-surface: #fffefa;
-  --color-line: #dedfd6;
+  --color-line: #ddd8cc;
+  --color-leaf: #2e7d5b;
+  --color-sage: #a7c4b2;
+  --color-soft-gray: #e5e7eb;
   --color-success: #1f7a4d;
   --color-warning: #a76712;
   --color-danger: #b42318;

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { BrandLogo } from "@/components/brand/brand-logo";
+import { KangBisa } from "@/components/brand/kang-bisa";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { formatRupiah } from "@/lib/money";
@@ -34,7 +36,7 @@ function ProductVisual({ product, compact = false }: { product: DemoProduct; com
 function Dashboard() {
   return <div className="space-y-4">
     <section className="noise-surface overflow-hidden rounded-[22px] p-4 text-white shadow-float">
-      <div className="flex gap-3"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#d4a956] font-bold text-[#0b4b39]">KB</div><div><p className="text-[10px] font-bold uppercase tracking-widest text-[#e8ca79]">Kang Bisa · Asisten Anda</p><h1 className="mt-1 font-accent text-xl font-bold">Sampurasun, Kang Asep!</h1><p className="mt-1 text-xs leading-relaxed text-white/75">Usaha berjalan baik. Ada tiga hal yang perlu diperhatikan hari ini.</p></div></div>
+      <div className="flex gap-3"><div className="flex h-14 w-14 shrink-0 items-start justify-center overflow-hidden rounded-[16px] bg-accent-soft"><KangBisa className="mt-1 w-[68px] max-w-none" alt="Kang Bisa" /></div><div><p className="text-[10px] font-bold uppercase tracking-widest text-[#e8ca79]">Kang Bisa · Asisten Anda</p><h1 className="mt-1 font-accent text-xl font-bold">Sampurasun, Kang Asep!</h1><p className="mt-1 text-xs leading-relaxed text-white/75">Usaha berjalan baik. Ada tiga hal yang perlu diperhatikan hari ini.</p></div></div>
       <ol className="mt-3 space-y-2 text-xs">{["3 barang stok menipis perlu diperiksa", "Omzet hari ini naik dibanding kemarin", "2 pelanggan menunggu tindak lanjut"].map((item, index) => <li key={item} className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d4a956] font-bold text-[#0b4b39]">{index + 1}</span>{item}</li>)}</ol>
       <div className="mt-4 grid grid-cols-2 gap-2"><button className="min-h-11 rounded-control bg-accent px-2 text-xs font-bold text-primary-deep">Tanya Kang Bisa</button><button className="min-h-11 rounded-control border border-white/25 px-2 text-xs font-semibold">Rencana Bisnis</button></div>
     </section>
@@ -71,7 +73,7 @@ export function DemoApp() {
   const [active, setActive] = useState<Tab>("beranda");
   const screen = active === "beranda" ? <Dashboard /> : active === "kasir" ? <Cashier /> : active === "stok" ? <Stock /> : active === "pelanggan" ? <Customers /> : <Account />;
   return <main className="min-h-screen bg-canvas py-0 sm:bg-[radial-gradient(circle_at_top,rgb(213_170_85/0.18),transparent_30rem)] sm:py-6"><div className="relative mx-auto min-h-screen w-full max-w-[430px] overflow-hidden bg-ivory shadow-float sm:min-h-[calc(100vh-3rem)] sm:rounded-[32px] sm:border sm:border-white">
-    <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line/80 bg-surface/90 px-4 py-2.5 backdrop-blur-xl"><div className="flex min-w-0 items-center gap-2.5"><span className="flex h-9 w-9 items-center justify-center rounded-[13px] bg-primary font-accent font-bold text-white shadow-sm">R</span><div className="min-w-0"><p className="truncate text-xs font-extrabold text-primary">Toko Berkah Rencang</p><p className="text-[9px] text-muted">Bandung · Mode demo</p></div></div><Link href="/masuk" className="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-3 text-[10px] font-bold text-primary">Masuk</Link></header>
+    <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line/80 bg-surface/90 px-4 py-2.5 backdrop-blur-xl"><div className="min-w-0"><BrandLogo className="w-[104px]" /><p className="mt-0.5 truncate text-[9px] text-muted">Toko Berkah · Mode demo</p></div><Link href="/masuk" className="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-3 text-[10px] font-bold text-primary">Masuk</Link></header>
     <div className="px-3 py-4 pb-24">{screen}</div>
     <nav aria-label="Navigasi demo" className="fixed bottom-0 left-1/2 z-20 w-full max-w-[430px] -translate-x-1/2 border-t border-line bg-surface/95 backdrop-blur-xl"><div className="flex">{nav.map((item) => <button id={item.id === "stok" ? "demo-stock" : undefined} key={item.id} onClick={() => setActive(item.id)} aria-current={active === item.id ? "page" : undefined} className={`relative flex min-h-[68px] flex-1 flex-col items-center justify-center gap-0.5 text-[9px] font-semibold transition-colors ${active === item.id ? "text-primary" : "text-muted"}`}>{active === item.id ? <span className="absolute top-0 h-0.5 w-8 rounded-full bg-accent" /> : null}<span className={active === item.id ? "rounded-full bg-primary-soft px-3 py-1" : "px-3 py-1"}><Icon name={item.icon} className="h-5 w-5" /></span>{item.label}</button>)}</div></nav>
   </div></main>;

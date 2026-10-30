@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/brand-logo";
+import { KangBisa } from "@/components/brand/kang-bisa";
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/menu";
 
@@ -15,14 +17,6 @@ const steps = [
   ["03", "Mulai berjualan", "Gunakan kasir, cetak struk, dan pantau usaha dari Beranda."],
 ];
 
-function BrandMark({ inverse = false }: { inverse?: boolean }) {
-  return (
-    <span className={`flex h-10 w-10 items-center justify-center rounded-[14px] border font-accent text-lg font-bold shadow-sm ${inverse ? "border-white/20 bg-white/10 text-white" : "border-primary/10 bg-primary text-white"}`}>
-      R
-    </span>
-  );
-}
-
 function ProductPreview() {
   const metrics = [
     ["Omzet hari ini", "Rp1.850.000", "chart"],
@@ -32,13 +26,16 @@ function ProductPreview() {
   ] as const;
 
   return (
-    <div className="relative mx-auto w-full max-w-[510px] lg:mr-0">
-      <div className="absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle_at_center,rgb(213_170_85/0.24),transparent_66%)]" />
-      <div className="gentle-float glass-surface relative rounded-[30px] p-2 sm:p-3">
+    <div className="relative mx-auto w-full max-w-[510px] pt-48 sm:pt-56 lg:mr-0">
+      <div className="absolute inset-x-4 top-3 h-64 rounded-[32px] bg-[radial-gradient(circle_at_65%_45%,rgb(212_169_86/0.35),transparent_58%),linear-gradient(145deg,#f8eed9,#e4f0e9)] sm:h-72" />
+      <div className="absolute right-0 top-0 z-[2] w-[260px] sm:w-[310px]"><KangBisa priority className="w-full drop-shadow-[0_18px_25px_rgb(23_66_54/0.18)]" /></div>
+      <div className="absolute left-0 top-16 z-[3] max-w-[190px] rounded-[18px_18px_4px_18px] border border-white bg-white/90 p-3 shadow-card backdrop-blur sm:left-3 sm:top-20"><p className="font-accent text-sm font-bold text-primary-deep">“Tenang, biar Kang Bisa yang bantu.”</p><p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-primary">Sahabat digital usaha</p></div>
+      <div className="absolute -inset-8 top-36 rounded-[48px] bg-[radial-gradient(circle_at_center,rgb(213_170_85/0.2),transparent_66%)]" />
+      <div className="gentle-float glass-surface relative z-10 rounded-[30px] p-2 sm:p-3">
         <div className="overflow-hidden rounded-[24px] border border-line bg-surface">
           <div className="flex items-center justify-between border-b border-line px-4 py-3">
             <div className="flex items-center gap-3">
-              <BrandMark />
+              <BrandLogo className="w-[108px]" />
               <div>
                 <p className="text-xs font-extrabold text-primary">Toko Berkah Rencang</p>
                 <p className="text-[10px] text-muted">Beranda usaha · Mode demo</p>
@@ -49,7 +46,7 @@ function ProductPreview() {
           <div className="p-3 sm:p-4">
             <div className="noise-surface overflow-hidden rounded-[20px] p-4 text-white">
               <div className="flex items-start gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-accent font-black text-primary-deep">KB</span>
+                <span className="flex h-12 w-12 shrink-0 items-start justify-center overflow-hidden rounded-[14px] bg-accent-soft"><KangBisa className="mt-1 w-14 max-w-none" alt="Kang Bisa" /></span>
                 <div>
                   <p className="text-[9px] font-extrabold uppercase tracking-[.16em] text-[#f4d88e]">Kang Bisa · Ringkasan</p>
                   <p className="mt-1 font-accent text-lg font-bold">Sampurasun, usaha siap berjalan.</p>
@@ -91,9 +88,8 @@ export default function Home() {
 
       <header className="sticky top-0 z-40 border-b border-white/60 bg-ivory/80 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-3" aria-label="Rencang AI, beranda">
-            <BrandMark />
-            <span className="whitespace-nowrap"><strong className="block text-sm text-primary">Rencang AI</strong><span className="hidden text-[9px] font-semibold uppercase tracking-[.15em] text-muted sm:block">Sobat digital usaha</span></span>
+          <Link href="/" className="flex items-center" aria-label="Rencang AI, beranda">
+            <BrandLogo priority className="w-[128px] sm:w-[150px]" />
           </Link>
           <nav aria-label="Navigasi utama" className="hidden items-center gap-7 text-xs font-bold text-muted lg:flex">
             <a href="#fitur" className="transition-colors hover:text-primary">Fitur</a>
@@ -193,7 +189,7 @@ export default function Home() {
 
       <footer className="border-t border-white/10 bg-primary-deep text-white">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_.6fr_.7fr]">
-          <div><div className="flex items-center gap-3"><BrandMark inverse /><span className="font-accent text-xl font-bold">Rencang AI</span></div><p className="mt-4 max-w-sm text-xs leading-6 text-white/55">Sobat digital untuk operasional usaha yang lebih rapi, mudah dibaca, dan dapat ditelusuri.</p></div>
+          <div><div className="inline-flex rounded-[14px] bg-ivory px-3 py-2"><BrandLogo className="w-[150px]" /></div><p className="mt-4 max-w-sm text-xs leading-6 text-white/55">Rencang usaha, biar Kang Bisa yang bantu.</p></div>
           <div><p className="text-xs font-bold">Jelajahi</p><div className="mt-4 flex flex-col gap-3 text-xs text-white/55"><Link href="/demo">Demo</Link><Link href="/panduan">Panduan</Link><Link href="/masuk">Masuk</Link></div></div>
           <div><p className="text-xs font-bold">Status produk</p><p className="mt-4 text-xs leading-6 text-white/55">MVP aktif untuk UI dan alur inti. Database produksi VPS disiapkan pada tahap berikutnya.</p></div>
         </div>

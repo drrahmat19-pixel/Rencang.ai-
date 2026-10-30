@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   applicationName: "Rencang AI",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "Rencang AI" },
-  icons: { icon: "/rencang-icon.svg", apple: "/rencang-icon.svg" },
+  icons: { icon: "/brand/rencang-app-icon.png", apple: "/brand/rencang-app-icon.png" },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0e4d3a" };
